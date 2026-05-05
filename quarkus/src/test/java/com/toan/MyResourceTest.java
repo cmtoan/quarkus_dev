@@ -15,6 +15,6 @@ class MyResourceTest {
     given()
       .when().get("api/vt")
       .then()
-      .statusCode(200);
+      .statusCode(204);
   }
 }
