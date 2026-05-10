@@ -1,27 +1,25 @@
 package com.toan;
 
-import io.quarkus.security.identity.SecurityIdentity;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
 import jakarta.ws.rs.container.PreMatching;
 import jakarta.ws.rs.ext.Provider;
-
+import java.security.Principal;
 
 @Provider
 @PreMatching
 public class UserFilter implements ContainerRequestFilter {
-  private final SecurityIdentity securityIdentity;
   private final AuthenticatedUserContext context;
 
   @Inject
-  public UserFilter(SecurityIdentity securityIdentity, AuthenticatedUserContext context) {
-    this.securityIdentity = securityIdentity;
+  public UserFilter(AuthenticatedUserContext context) {
     this.context = context;
   }
 
   @Override
-  public void filter(ContainerRequestContext requestContext)  {
-    context.initMyUser(securityIdentity);
+  public void filter(ContainerRequestContext requestContext) {
+    Principal userPrincipal = requestContext.getSecurityContext().getUserPrincipal();
+    context.initMyUser(userPrincipal);
   }
 }

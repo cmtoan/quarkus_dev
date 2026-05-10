@@ -1,7 +1,8 @@
 package com.toan;
 
-import io.quarkus.security.identity.SecurityIdentity;
 import jakarta.enterprise.context.RequestScoped;
+
+import java.security.Principal;
 
 @RequestScoped
 public class AuthenticatedUserContext {
@@ -11,7 +12,7 @@ public class AuthenticatedUserContext {
     return myUser;
   }
 
-  public void initMyUser(SecurityIdentity securityIdentity) {
-    this.myUser = new MyUser(securityIdentity.getPrincipal().getName());
+  public void initMyUser(Principal principal) {
+    this.myUser = new MyUser(principal.getName());
   }
 }
