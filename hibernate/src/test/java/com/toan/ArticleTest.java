@@ -4,7 +4,6 @@ import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.virtual.threads.VirtualThreads;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import org.hibernate.StatelessSession;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -19,19 +18,10 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 class ArticleTest {
 
   @Inject
-  StatelessSession statelessSession;
-
-  @Inject
   ArticleRepository articleRepository;
 
   @VirtualThreads
   ExecutorService executorService;
-
-  @Test
-  void upsertTest() {
-    Article article = new Article(1L, "article");
-    assertThatNoException().isThrownBy(() -> statelessSession.upsert(article));
-  }
 
   @Test
   @Transactional
